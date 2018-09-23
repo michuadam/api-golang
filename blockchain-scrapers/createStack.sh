@@ -76,10 +76,10 @@ fi
 blockchain_dir=$GOPATH/src/github.com/diadata-org/api-golang/blockchain-scrapers/blockchains
 export STACKNAME=blockchain-scrapers
 
-if [ ! -e $HOME/srv ]; then
-	sudo mkdir -p $HOME/srv/bitcoin $HOME/srv/geth $HOME/srv/monero $HOME/srv/litecoin  \
-		$HOME/srv/cardano $HOME/srv/bitcoin-cash $HOME/srv/neo $HOME/srv/dash $HOME/srv/dogecoin
-	sudo chmod -R 777 $HOME/srv
+if [ ! -e /home/srv ]; then
+	sudo mkdir -p /home/srv/bitcoin /home/srv/geth /home/srv/monero /home/srv/litecoin  \
+		/home/srv/cardano /home/srv/bitcoin-cash /home/srv/neo /home/srv/dash /home/srv/dogecoin /home/srv/eosio/bin
+	sudo chmod -R 777 /home/srv
 fi
 
 exec 3>&1 4>&2

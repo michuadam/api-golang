@@ -202,7 +202,7 @@ func getSupply(ctx context.Context) (*big.Int, error) {
 		current = current.Add(current, one)
 	}
 	close(ch)
-	log.Println(supply)
+	log.Println("Supply:", supply)
 	log.Println(current)
 	log.Println(supply.Add(supply, premine))
 	return supply, nil
