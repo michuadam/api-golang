@@ -5,8 +5,8 @@ import (
 )
 
 const (
-	HOST = "bitcoin-cash"
-	PORT = 8332
+	HOST 		= "bitcoin-cash"
+	PORT 		= 8332
 	USER        = "mysecretrpcdiauser"
 	PASSWD      = "njTcaNX74sSf46_TXacMVlyPMJjuv9i03bqBgj9KQ8E="
 	SYMBOL      = "BCH"

@@ -50,6 +50,7 @@ func RunScraper(host string, port int, user, password, symbol string) {
 				log.Println("Sent supply", lastSupply, "to API")
 			}
 		} else {
+			log.Println("Supply:", txOutSetInfo.TotalAmount)
 			log.Println("No new values. Sleeping for", SLEEP_SECONDS, "seconds")
 			time.Sleep(SLEEP_SECONDS *time.Second)
 		}
