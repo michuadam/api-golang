@@ -1,0 +1,20 @@
+FROM eosio/eos
+USER root
+
+RUN apt-get update
+RUN apt-get install git curl -y
+
+#RUN curl -o /opt/eosio/bin/blocks.tar.gz --create-dirs https://eosnode.tools/api/blocks?os=Ubuntu+18.04&limit=1
+RUN curl -o /opt/eosio/bin/genesis.json --create-dirs https://raw.githubusercontent.com/CryptoLions/EOS-MainNet/master/genesis.json
+RUN curl -o /opt/eosio/bin/config.ini --create-dirs https://raw.githubusercontent.com/CryptoLions/EOS-MainNet/master/config.ini
+
+WORKDIR /opt/eosio/bin
+
+#RUN tar xvzf blocks.tar.gz
+
+EXPOSE 9876
+EXPOSE 8888
+
+RUN mv /opt/eosio/bin/nodeos /bin/nodeos
+
+CMD ["/bin/bash", "-c", "nodeos --data-dir=/opt/eosio/bin --hard-replay"]

@@ -1,10 +1,10 @@
 FROM golang:latest as build
 
-WORKDIR $GOPATH/src/
+WORKDIR $GOPATH
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/api-golang/blockchain-scrapers/eos/scrapers
+WORKDIR $GOPATH/src/github.com/diadata-org/api-golang/blockchain-scrapers/blockchains/eos/scrapers/eos
 
 RUN go install
 
