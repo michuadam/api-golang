@@ -16,17 +16,17 @@ func RunScraper(host string, port int, user, password, symbol string, elapsedTim
 
 	config := dia.GetConfigApi()
 	if config == nil {
-		log.Fatal("Couldn't load config")
+		panic("Couldn't load config")
 	}
 
 	client := dia.NewClient(config)
 	if client == nil {
-		log.Fatal("Couldn't load client")
+		panic("Couldn't load client")
 	}
 
 	bitcoinLib, err := bitcoind.New(host, port, user, password, USESSL)
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	var waitTime time.Duration = time.Duration(elapsedTime)*time.Second
