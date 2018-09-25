@@ -10,8 +10,9 @@ const (
 	USER        = "dogediauser"
 	PASSWD      = "dogediapassword"
 	SYMBOL      = "DOGE"
+	TIP_TIME    = 60
 )
 
 func main() {
-	blockchainscrapers.RunScraper(HOST, PORT, USER, PASSWD, SYMBOL)
+	blockchainscrapers.RunScraper(HOST, PORT, USER, PASSWD, SYMBOL, TIP_TIME)
 }
