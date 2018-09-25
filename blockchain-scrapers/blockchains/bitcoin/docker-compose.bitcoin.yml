@@ -7,7 +7,7 @@ services:
     ports:
       - "8332"
     volumes:
-      - $HOME/srv/bitcoin:/bitcoin
+      - /home/srv/bitcoin:/bitcoin
     command: btc_oneshot -printtoconsole -prune=550 -rpcallowip=::/0 -disablewallet -rpcpassword=mysecretrpcdiapassword -rpcuser=mysecretrpcdiauser
     logging:
       options:
