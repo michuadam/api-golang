@@ -5,12 +5,12 @@ import (
 )
 
 const (
-	HOST 		= "dogecoin"
-	PORT 		= 22555
-	USER        = "dogediauser"
-	PASSWD      = "dogediapassword"
-	SYMBOL      = "DOGE"
-	TIP_TIME    = 90
+	HOST     = "dogecoin"
+	PORT     = 22555
+	USER     = "dogediauser"
+	PASSWD   = "dogediapassword"
+	SYMBOL   = "DOGE"
+	TIP_TIME = 90
 )
 
 func main() {
