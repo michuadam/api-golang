@@ -10,7 +10,7 @@ const (
 	USER        = "dogediauser"
 	PASSWD      = "dogediapassword"
 	SYMBOL      = "DOGE"
-	TIP_TIME    = 60
+	TIP_TIME    = 90
 )
 
 func main() {
