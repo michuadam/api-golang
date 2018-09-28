@@ -29,29 +29,43 @@ func RunScraper(host string, port int, user, password, symbol string, elapsedTim
 		log.Fatal(err)
 	}
 
-	info, err := bitcoinLib.GetBlockchainInfo()
-	if err != nil {
-		log.Fatal(err)
-	}
+	var waitTime time.Duration = time.Duration(elapsedTime)*time.Second
+	var lastSupply float64 = 0
 
 	for {
-		medianTime := time.Unix(info.Mediantime, 0)
-		blockTime := time.Now().Sub(medianTime)
+		bestHash, err := bitcoinLib.GetBestBlockhash()
+		if err != nil {
+			log.Println(err)
+		}
 
-		if blockTime < time.Duration(elapsedTime)*time.Second {
+		block, err := bitcoinLib.GetBlock(bestHash)
+		if err != nil {
+			log.Println(err)
+		}
+
+		blockTime := time.Unix(block.Time, 0)
+
+		if time.Now().Sub(blockTime) > waitTime {
 			txOutSetInfo, err := bitcoinLib.GetTxOutsetInfo()
-
-			err = client.SendSupply(&dia.Supply{
-				Symbol: symbol,
-				CirculatingSupply: txOutSetInfo.TotalAmount,
-			})
 			if err != nil {
-				log.Println("Error sending supply to API: ", err)
-			} else {
-				log.Println("Sent supply", txOutSetInfo.TotalAmount, "to API")
+				log.Println(err)
+			}
+
+			if txOutSetInfo.TotalAmount > lastSupply {
+				lastSupply = txOutSetInfo.TotalAmount
+
+				err = client.SendSupply(&dia.Supply{
+					Symbol: symbol,
+					CirculatingSupply: lastSupply,
+				})
+				if err != nil {
+					log.Println("Error sending supply to API: ", err)
+				} else {
+					log.Println("Sent supply", lastSupply , "to API")
+				}
 			}
 		} else {
-			log.Println("Sleeping until", symbol, "node is fully synchronized")
+			log.Println("Block:", block.Height,"synchronized for",time.Now().Sub(blockTime),"; Sleeping until", symbol, "node is fully synchronized")
 		}
 
 		time.Sleep(SLEEP_TIME *time.Second)

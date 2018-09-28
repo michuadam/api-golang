@@ -8,7 +8,7 @@ const (
 	USER        = "dashrpc"
 	PASSWD 		= "dash_rpc_521d43b"
 	SYMBOL      = "DASH"
-	TIP_TIME    = 60 * 3
+	TIP_TIME    = 60 * 2
 )
 
 func main() {
