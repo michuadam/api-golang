@@ -33,8 +33,21 @@ All these data points can be used in Ethereum Smart Contracts.
 We provide oracles to use this information in any smart contract.
 The correctness of oracle data can always be verified by monitoring our off-chain realtime API and the data published in the oracle.
 
+## Methodology Documentation
+Currently, DIA collects several classes of data.
+Because of the very different nature of these classes, separate documentation exists for each of these different use cases.
+
+* [Exchange Scrapers](methodology/ExchangePrices.md) are the components that get trade data from various exchanges and use these trades to contruct average prices.
+* [Supply Scrapers](methodology/SupplyNumbers.md) are used to determine circulating supply numbers for cryptocurrency assets.
+This information varies for each currency and is highly specific.
+
 ## API access
-To access the API, visit TODO.
+Our API is live at https://api.diadata.org/v1 [swagger](https://api.diadata.org/swagger/index.html).
+Several endpoints exist that show the different kind of data we collect:
+
+When referencing currencies, `{TLA}` has to be replaced by the acronym for an asset (e.g., BTC for Bitcoin).
+* Quotations for prices (SMA120) can be found at endpoint <https://api.diadata.org/v1/quotation/{TLA}>.
+* Supply data for crypto assets is located at <https://api.diadata.org/v1/supply/{TLA}>.
 
 ## How to contribute
 DIA is open for anyone to contribute and we always welcome pull requests.

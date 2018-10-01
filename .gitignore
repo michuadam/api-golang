@@ -7,8 +7,8 @@ main
 *.out
 .glide/
 */config/secrets/*
+secrets
 go.*
 *-workspace
-push.sh
 .idea
 *.png
