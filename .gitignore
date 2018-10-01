@@ -11,3 +11,4 @@ go.*
 *-workspace
 push.sh
 .idea
+*.png
