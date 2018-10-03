@@ -1,4 +1,4 @@
-package main
+package frontend
 
 import (
 	"gonum.org/v1/plot"
@@ -16,7 +16,7 @@ const (
 	IMAGE_HEIGHT = 4
 	IMAGE_WIDTH = 12
 )
-func PriceGraph(prices []float64, times []int64) error {
+func PriceGraph(prices []float64, times []int64, path string) error {
 	graph, err := plot.New()
 	if err != nil {
 		return err
@@ -27,7 +27,6 @@ func PriceGraph(prices []float64, times []int64) error {
 	for i := range dataPoints {
 		dataPoints[i].X = float64(times[i])/float64(len(times))
 		dataPoints[i].Y = prices[i]
-		//fmt.Println("X: ",dataPoints[i].X,"; Y: ", dataPoints[i].Y)
 	}
 
 	// insert data in line
@@ -48,7 +47,7 @@ func PriceGraph(prices []float64, times []int64) error {
 	line.LineStyle.Color = color.RGBA{R: 63, G: 63, B: 237, A: 255}
 
 	// Save graph
-	err = graph.Save(IMAGE_WIDTH*vg.Inch, IMAGE_HEIGHT*vg.Inch, "7daygraph.png")
+	err = graph.Save(IMAGE_WIDTH*vg.Inch, IMAGE_HEIGHT*vg.Inch, path)
 	if err != nil {
 		return err
 	}
@@ -56,7 +55,7 @@ func PriceGraph(prices []float64, times []int64) error {
 	return nil
 }
 
-func main() {
+func test() {
 	numPoints := 30*24*7
 	prices := make([]float64, numPoints)
 	times := make([]int64, numPoints)
@@ -73,7 +72,7 @@ func main() {
 		times[i] = weekAgo.Add(time.Minute * time.Duration(2*i)).Unix()
 	}
 
-	err := PriceGraph(prices, times)
+	err := PriceGraph(prices, times, "example.png")
 	if err != nil {
 		log.Println(err)
 	}

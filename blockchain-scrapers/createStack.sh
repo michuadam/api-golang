@@ -24,13 +24,13 @@ function deploy {
 	case $1 in
 		# deploy every service in a stack called 'all'
 		all)
-			find . -name docker-compose.*.yml -exec docker stack deploy -c {} $1 \;
+			find . -name docker-compose.*.yml -exec docker stack deploy --prune=true -c {} $1 \;
 			echo "Finished deployment" 1>&3
 			;;
 
 		# deploy a service in a stack with its name
 		*)
-			(docker stack deploy -c $(find . -name docker-compose.$1.yml) $1 &&
+			(docker stack deploy --prune=true -c $(find . -name docker-compose.$1.yml) $1 &&
 				echo "Finished deployment" 1>&3) || error "Can't deploy '$1' (might not exist) "
 			;;
 	esac
