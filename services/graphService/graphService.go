@@ -56,12 +56,12 @@ func main() {
 			}
 
 			err = frontend.PriceGraph(pricePoints, timePoints, GRAPH_PATH+symbol+".png")
+			os.Rename(GRAPH_PATH+symbol+".png", GRAPH_PATH+symbol)
 			if err != nil {
 				log.Println(err)
 			} else {
-				log.Println("Created graph for"+symbol)
+				log.Println("Created graph for", symbol)
 			}
-
 		}
 
 		time.Sleep(time.Minute*2)

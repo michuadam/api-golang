@@ -13,9 +13,10 @@ import (
 )
 
 const (
-	IMAGE_HEIGHT = 4
-	IMAGE_WIDTH = 12
+	IMAGE_HEIGHT = 2
+	IMAGE_WIDTH = 6
 )
+
 func PriceGraph(prices []float64, times []int64, path string) error {
 	graph, err := plot.New()
 	if err != nil {
@@ -35,19 +36,20 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 		return err
 	}
 
+	// change presentation
+	graph.HideAxes()
+	graph.BackgroundColor = color.Transparent
+	line.LineStyle.Color = color.RGBA{R: 63, G: 63, B: 237, A: 255}
+	//*line.ShadeColor = &color.RGBA{R: 63, G: 63, B: 237, A: 150}
+
 	// add data to graph
 	err = plotutil.AddLines(graph, line)
 	if err != nil {
 		return err
 	}
 
-	// change presentation
-	graph.HideAxes()
-	graph.BackgroundColor = color.Transparent
-	line.LineStyle.Color = color.RGBA{R: 63, G: 63, B: 237, A: 255}
-
 	// Save graph
-	err = graph.Save(IMAGE_WIDTH*vg.Inch, IMAGE_HEIGHT*vg.Inch, path)
+	err = graph.Save(IMAGE_WIDTH*vg.Centimeter, IMAGE_HEIGHT*vg.Centimeter, path)
 	if err != nil {
 		return err
 	}
@@ -72,7 +74,7 @@ func test() {
 		times[i] = weekAgo.Add(time.Minute * time.Duration(2*i)).Unix()
 	}
 
-	err := PriceGraph(prices, times, "example.png")
+	err := PriceGraph(prices, times, "example")
 	if err != nil {
 		log.Println(err)
 	}
