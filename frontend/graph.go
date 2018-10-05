@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	IMAGE_HEIGHT = 2
+	IMAGE_HEIGHT = 1
 	IMAGE_WIDTH = 6
 )
 
@@ -26,7 +26,7 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 	// normalize data
 	dataPoints := make(plotter.XYs, len(prices))
 	for i := range dataPoints {
-		dataPoints[i].X = float64(times[i])/float64(len(times))
+		dataPoints[i].X = float64(times[i])///float64(len(times))
 		dataPoints[i].Y = prices[i]
 	}
 
@@ -39,8 +39,7 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 	// change presentation
 	graph.HideAxes()
 	graph.BackgroundColor = color.Transparent
-	line.LineStyle.Color = color.RGBA{R: 63, G: 63, B: 237, A: 255}
-	//*line.ShadeColor = &color.RGBA{R: 63, G: 63, B: 237, A: 150}
+	line.LineStyle.Color = color.RGBA{B: 237, A: 255}
 
 	// add data to graph
 	err = plotutil.AddLines(graph, line)
