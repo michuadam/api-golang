@@ -3,7 +3,6 @@ package frontend
 import (
 	"gonum.org/v1/plot"
 	"gonum.org/v1/plot/plotter"
-	"gonum.org/v1/plot/plotutil"
 	"gonum.org/v1/plot/vg"
 	"image/color"
 	"log"
@@ -23,10 +22,10 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 		return err
 	}
 
-	// normalize data
-	dataPoints := make(plotter.XYs, len(prices))
-	for i := range dataPoints {
-		dataPoints[i].X = float64(times[i])///float64(len(times))
+	// downsample data
+	dataPoints := make(plotter.XYs, len(times))
+	for i := 0; i < len(times); i++ {
+		dataPoints[i].X = float64(times[i])
 		dataPoints[i].Y = prices[i]
 	}
 
@@ -38,14 +37,13 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 
 	// change presentation
 	graph.HideAxes()
-	graph.BackgroundColor = color.Transparent
-	line.LineStyle.Color = color.RGBA{B: 237, A: 255}
+	graph.BackgroundColor = color.RGBA{R: 0, G: 0, B: 0, A: 0}
+	line.LineStyle.Color = color.RGBA{R: 0, G: 0, B: 255, A: 255}
 
-	// add data to graph
-	err = plotutil.AddLines(graph, line)
-	if err != nil {
-		return err
-	}
+	//*line.ShadeColor = color.RGBA{R:200, G: 220,B: 255, A: 250}
+
+	// add line to graph
+	graph.Add(line)
 
 	// Save graph
 	err = graph.Save(IMAGE_WIDTH*vg.Centimeter, IMAGE_HEIGHT*vg.Centimeter, path)
@@ -63,9 +61,13 @@ func test() {
 
 	rand.Seed(time.Now().Unix())
 	var x float64 = 0.0
-	for i := range prices {
-		prices[i] = math.Sin(float64(x))
-		x += 0.01
+	for i := 0; i < len(prices); i++ {
+		even := rand.Uint32() % 2 == 0
+		prices[i] = math.Sin(float64(rand.Float64()))
+		if !even {
+			prices[i] *= -1
+		}
+		x += 0.1
 	}
 
 	weekAgo := time.Now().Add(-time.Hour*7*24)
@@ -73,7 +75,7 @@ func test() {
 		times[i] = weekAgo.Add(time.Minute * time.Duration(2*i)).Unix()
 	}
 
-	err := PriceGraph(prices, times, "example")
+	err := PriceGraph(prices, times, "example.png")
 	if err != nil {
 		log.Println(err)
 	}
