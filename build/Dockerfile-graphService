@@ -1,10 +1,10 @@
 FROM golang:latest as build
 
-WORKDIR $GOPATH
+WORKDIR $GOPATH/src
 
 COPY . .
 
-WORKDIR $GOPATH/src/github.com/diadata-org/api-golang/services/graphService
+WORKDIR $GOPATH/src/github.com/diadata-org/api-golang/cmd/servicesgraphService
 
 RUN go install
 
