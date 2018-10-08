@@ -10,9 +10,8 @@ import (
 )
 
 const (
-	GRAPH_PATH 	= "/charts/"
+	GRAPH_PATH = "/charts/"
 )
-
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
@@ -41,7 +40,7 @@ func main() {
 				continue
 			}
 
-			log.Println("Producing chart for", symbol, "with", len(points),"datapoints")
+			log.Println("Producing chart for", symbol, "with", len(points), "datapoints")
 			timePoints := make([]int64, len(points))
 			pricePoints := make([]float64, len(points))
 
@@ -51,7 +50,7 @@ func main() {
 			}
 
 			if _, err := os.Stat(GRAPH_PATH); os.IsNotExist(err) {
-				err = os.MkdirAll(GRAPH_PATH, os.ModeDir | os.ModePerm)
+				err = os.MkdirAll(GRAPH_PATH, os.ModeDir|os.ModePerm)
 				log.Println(err)
 			}
 
@@ -67,6 +66,6 @@ func main() {
 			}
 		}
 
-		time.Sleep(time.Minute*2)
+		time.Sleep(time.Minute * 2)
 	}
 }
