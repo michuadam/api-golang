@@ -2,16 +2,12 @@ package models
 
 import (
 	"fmt"
+	"github.com/diadata-org/api-golang/dia"
 )
-
-type Point struct {
-	UnixTime int64
-	Value    float64
-}
 
 func (db *DB) GetChartPoints(symbol string) ([]Point, error) {
 	result := []Point{}
-	vals, err := db.redisClient.ZRange(getKeyFilterZSET("MA120_"+symbol), 0, -1).Result()
+	vals, err := db.redisClient.ZRange(getKeyFilterZSET(dia.FilterKing+"_"+symbol), 0, -1).Result()
 	if err == nil {
 		var p Point
 		for _, v := range vals {
