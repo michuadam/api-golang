@@ -28,7 +28,7 @@ services:
   graphservice:
     build:
       context: ../../../..
-      dockerfile: github.com/diadata-org/api-golang/services/Dockerfile-graphService
+      dockerfile: github.com/diadata-org/api-golang/build/Dockerfile-graphService
     image: ${DOCKER_HUB_LOGIN}/${STACKNAME}_graphservice:latest
     volumes:
       - /home/srv/restServer/charts:/charts
