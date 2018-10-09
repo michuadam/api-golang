@@ -13,7 +13,8 @@ import (
 
 const (
 	IMAGE_HEIGHT = 1
-	IMAGE_WIDTH = 6
+	IMAGE_WIDTH  = 6
+	DATAPOINTS   = 100
 )
 
 func PriceGraph(prices []float64, times []int64, path string) error {
@@ -23,10 +24,25 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 	}
 
 	// downsample data
-	dataPoints := make(plotter.XYs, len(times))
-	for i := 0; i < len(times); i++ {
-		dataPoints[i].X = float64(times[i])
-		dataPoints[i].Y = prices[i]
+	factor, index, sumPrices, sumTimes := len(times)/DATAPOINTS, 0, float64(0), int64(0)
+	if factor < 1 {
+		factor = 1
+	}
+	dataPoints := make(plotter.XYs, DATAPOINTS)
+
+	for i := 1; i < len(times) && index < DATAPOINTS; i++ {
+		sumPrices += prices[i]
+		sumTimes += times[i]
+
+		if i%factor == 0 {
+			dataPoints[index].X = float64(sumTimes / int64(factor))
+			dataPoints[index].Y = sumPrices / float64(factor)
+
+			//log.Println("Avg time:", dataPoints[index].X, "Avg price:", dataPoints[index].Y)
+			sumPrices = 0
+			sumTimes = 0
+			index++
+		}
 	}
 
 	// insert data in line
@@ -54,15 +70,15 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 	return nil
 }
 
-func test() {
-	numPoints := 30*24*7
+func main() {
+	numPoints := 30 * 24 * 7
 	prices := make([]float64, numPoints)
 	times := make([]int64, numPoints)
 
 	rand.Seed(time.Now().Unix())
-	var x float64 = 0.0
+	var x = 0.0
 	for i := 0; i < len(prices); i++ {
-		even := rand.Uint32() % 2 == 0
+		even := rand.Uint32()%2 == 0
 		prices[i] = math.Sin(float64(rand.Float64()))
 		if !even {
 			prices[i] *= -1
@@ -70,7 +86,7 @@ func test() {
 		x += 0.1
 	}
 
-	weekAgo := time.Now().Add(-time.Hour*7*24)
+	weekAgo := time.Now().Add(-time.Hour * 7 * 24)
 	for i := range times {
 		times[i] = weekAgo.Add(time.Minute * time.Duration(2*i)).Unix()
 	}
