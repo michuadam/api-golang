@@ -2,9 +2,7 @@ FROM golang:latest as build
 
 WORKDIR $GOPATH
 
-RUN echo $PWD
 COPY . .
-RUN  ls src/github.com/diadata-org/api-golang/cmd/services/graphService
 
 WORKDIR $GOPATH/src/github.com/diadata-org/api-golang/cmd/services/graphService
 

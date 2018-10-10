@@ -12,9 +12,9 @@ import (
 )
 
 const (
-	IMAGE_HEIGHT = 1
-	IMAGE_WIDTH  = 6
-	DATAPOINTS   = 100
+	IMAGE_HEIGHT   = 1
+	IMAGE_WIDTH    = 6
+	NUM_DATAPOINTS = 75
 )
 
 func PriceGraph(prices []float64, times []int64, path string) error {
@@ -24,13 +24,14 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 	}
 
 	// downsample data
-	factor, index, sumPrices, sumTimes := len(times)/DATAPOINTS, 0, float64(0), int64(0)
+	factor, index, sumPrices, sumTimes := len(times)/NUM_DATAPOINTS, 0, float64(0), int64(0)
 	if factor < 1 {
 		factor = 1
 	}
-	dataPoints := make(plotter.XYs, DATAPOINTS)
 
-	for i := 1; i < len(times) && index < DATAPOINTS; i++ {
+	dataPoints := make(plotter.XYs, NUM_DATAPOINTS)
+
+	for i := 1; i < len(times) && index < NUM_DATAPOINTS; i++ {
 		sumPrices += prices[i]
 		sumTimes += times[i]
 
@@ -38,10 +39,10 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 			dataPoints[index].X = float64(sumTimes / int64(factor))
 			dataPoints[index].Y = sumPrices / float64(factor)
 
-			//log.Println("Avg time:", dataPoints[index].X, "Avg price:", dataPoints[index].Y)
 			sumPrices = 0
 			sumTimes = 0
 			index++
+
 		}
 	}
 
@@ -54,9 +55,13 @@ func PriceGraph(prices []float64, times []int64, path string) error {
 	// change presentation
 	graph.HideAxes()
 	graph.BackgroundColor = color.RGBA{R: 0, G: 0, B: 0, A: 0}
-	line.LineStyle.Color = color.RGBA{R: 0, G: 0, B: 255, A: 255}
+	line.LineStyle.Color = color.RGBA{R: 40, G: 54, B: 142, A: 255}
 
-	//*line.ShadeColor = color.RGBA{R:200, G: 220,B: 255, A: 250}
+	line.ShadeColor = new(color.Color)
+	*line.ShadeColor = color.RGBA{R: 204, G: 223, B: 248, A: 255}
+
+	graph.X.Padding = 0
+	graph.Y.Padding = 0
 
 	// add line to graph
 	graph.Add(line)
